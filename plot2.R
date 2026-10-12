@@ -44,7 +44,7 @@ NEIagg <- aggregate(Emissions ~ year, data=NEIbalt, FUN=sum)
 
 # Scale emissions by million for cleaner axis
 
-#png(filename="plot2.png",width=480,height=480)
+png(filename="plot2.png",width=480,height=480)
 
 barplot(height = NEIagg$Emissions,
         width = 2,
@@ -54,4 +54,4 @@ barplot(height = NEIagg$Emissions,
         main = "Emissions of Baltimore City over the years"
 )
 
-#dev.off()
+dev.off()
