@@ -11,7 +11,7 @@
 
 
 # Windows
-#setwd("C:\\Users\\mchang\\Projects\\ProgrammingAssignment5")
+#setwd("C:\\Users\\mchang\\Projects\\ProgrammingAssignment6")
 
 # Mac
 setwd("/Users/mchang/Projects/ProgrammingAssignment6")

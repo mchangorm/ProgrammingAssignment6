@@ -11,7 +11,7 @@ library("ggplot2")
 
 
 # Windows
-#setwd("C:\\Users\\mchang\\Projects\\ProgrammingAssignment5")
+#setwd("C:\\Users\\mchang\\Projects\\ProgrammingAssignment6")
 
 # Mac
 setwd("/Users/mchang/Projects/ProgrammingAssignment6")
@@ -41,21 +41,32 @@ SCC <- readRDS("dataset/Source_Classification_Code.rds")
 # Information is located in SCC 
 # combustion is in SCC$SCC.Level.One as "combustion"
 # coal is in SCC$SCC.Level.Four as "coal"
+# We form a logical vector for each and then combine them together
+# The resultant logical vector would be an intersection of both criteria
 
-combustion <- grep("comb",SCC$SCC.Level.One,ignore.case = TRUE)
-coal <- grep("coal",SCC$SCC.Level.Four,ignore.case = TRUE)
+combustion <- grepl("comb",SCC$SCC.Level.One,ignore.case = TRUE)
+coal <- grepl("coal",SCC$SCC.Level.Four,ignore.case = TRUE)
+combustioncoal <- (combustion & coal)
 
+# Let's filter the SCC criteria now by the logical vector
+# to get the SCC numbers
+SCCcombcoal <- SCC[combustioncoal,]$SCC
+
+# And now subset the NEI data
+NEIcombcoal <- NEI[NEI$SCC %in% SCCcombcoal,]
+
+NEIagg <- aggregate(Emissions ~ year, data=NEIcombcoal, FUN=sum)
 
 #png(filename="plot4.png",width=480,height=480)
 
-#NEIplot <- ggplot(NEIagg,aes(x=year,y=Emissions,color=type)) + 
-#  geom_line(linewidth = 1) +
-#  geom_point(size = 2) +
-#  labs(title="Emissions by Type over Years",
-#       x = "Years",
-#       y = "Emissions"
-#  )
+NEIplot <- ggplot(NEIagg,aes(x=factor(year),y=Emissions / 10^6)) + 
+  geom_bar(stat="identity",linewidth = 0.75) +
+  geom_point(size = 2) +
+  labs(title="Emissions by SCC Coal Combustion Types over Years",
+       x = "Years",
+       y = "Emissions / 10^6 Tons"
+  )
 
-#print(NEIplot)
+print(NEIplot)
 
 #dev.off()
