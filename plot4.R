@@ -57,7 +57,7 @@ NEIcombcoal <- NEI[NEI$SCC %in% SCCcombcoal,]
 
 NEIagg <- aggregate(Emissions ~ year, data=NEIcombcoal, FUN=sum)
 
-#png(filename="plot4.png",width=480,height=480)
+png(filename="plot4.png",width=480,height=480)
 
 NEIplot <- ggplot(NEIagg,aes(x=factor(year),y=Emissions / 10^6)) + 
   geom_bar(stat="identity",linewidth = 0.75) +
@@ -69,4 +69,4 @@ NEIplot <- ggplot(NEIagg,aes(x=factor(year),y=Emissions / 10^6)) +
 
 print(NEIplot)
 
-#dev.off()
+dev.off()
